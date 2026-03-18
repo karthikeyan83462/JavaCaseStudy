@@ -3,13 +3,25 @@
 
 import java.util.*;
 public class AuthService{
-    public boolean isAvailable(String a){
+    public User isAvailable(String a){
         Repository<User> repo =new Repository<>("data/user.json", User::fromMap);
             List<User> allData= repo.loadAll();
             for (User u: allData){
-                return u.getUserId().equalsIgnoreCase(a);
+                if (u.getName().equalsIgnoreCase(a)) return u;
             }
-            return false;
+            return null;
+    }
+
+    public boolean checkpwd(String a, String b){
+        User temp=isAvailable(a);
+        if(temp!=null){
+            if (temp.getPasswordHash().equals(b)) return true;
+            else return false;
+        }
+            
+        return false;
+
+
     }
 
 }

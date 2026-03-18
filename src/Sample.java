@@ -4,10 +4,14 @@ public class Sample {
         Scanner sc=new Scanner(System.in);
         System.out.print("Enter username:");
         String U_name=sc.nextLine();
+        System.out.print("Enter password:");
+        String U_pas=sc.nextLine();
+
 
         AuthService as=new AuthService();
-        if (as.isAvailable(U_name)) System.out.println("true");
-        else System.out.println("false");
+        if (as.checkpwd(U_name, U_pas)) System.out.println("Success");
+        else System.out.println("fail");
+        
 
 
     }

@@ -1,1 +1,16 @@
-[{"role": "User", "name": "Prakalya", "userId": "1", "email": "abs@gmail.com", "passwordHash": "lksaldjop"}]
+[
+    {
+        "role": "User",
+        "name": "Prakalya",
+        "userId": "1",
+        "email": "abs@gmail.com",
+        "passwordHash": "lksaldjop"
+    },
+    {
+        "role": "ADMIN",
+        "name": "abcdef",
+        "userId": "2",
+        "email": "abcdef@gmail.com",
+        "passwordHash": "abcdef"
+    }
+]
