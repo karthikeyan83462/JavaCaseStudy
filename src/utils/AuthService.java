@@ -1,5 +1,5 @@
-
-
+package utils;
+import models.*;
 
 import java.util.*;
 public class AuthService{
@@ -23,5 +23,9 @@ public class AuthService{
 
 
     }
+    public void checkRole(User u){
+
+    }
+
 
 }

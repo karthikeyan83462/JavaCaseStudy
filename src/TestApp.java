@@ -1,4 +1,6 @@
 import java.util.*;
+import models.*;
+import utils.*;
 
 public class TestApp {
     public static void main(String[] args) {
@@ -19,7 +21,7 @@ public class TestApp {
         System.out.print("Enter Password Hash: ");
         String passwordHash = scanner.nextLine();
 
-        System.out.print("Enter Role (ADMIN/USER): ");
+        System.out.print("Enter EmpID: ");
         String role = scanner.nextLine();
 
         User user = new User(userId, name, email, passwordHash, role);
@@ -35,7 +37,7 @@ public class TestApp {
             System.out.println("ID: " + u.getUserId());
             System.out.println("Name: " + u.getName());
             System.out.println("Email: " + u.getEmail());
-            System.out.println("Role: " + u.getRole());
+            System.out.println("EmpID: " + u.getEmpID());
         }
 
         scanner.close();
