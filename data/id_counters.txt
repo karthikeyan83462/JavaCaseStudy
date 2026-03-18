@@ -1,7 +1,0 @@
-ATT=3
-REV=2
-USR=4
-EMP=4
-PRJ=2
-LVE=2
-ASN=2

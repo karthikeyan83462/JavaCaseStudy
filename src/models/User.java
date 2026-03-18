@@ -1,49 +1,59 @@
-package models;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class User {
+
     private String userId;
-    private String username;
+    private String name;
     private String email;
     private String passwordHash;
-    private String role; // ADMIN, MANAGER, EMPLOYEE
-    private boolean active;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastLogin;
+    private String role;
 
-    public User(String userId, String username, String email, String passwordHash, String role) {
+    public User(String userId, String name, String email, String passwordHash,
+                String role) {
+
         this.userId = userId;
-        this.username = username;
+        this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
-        this.active = true;
-        this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
+    // Getters
     public String getUserId() { return userId; }
-    public String getUsername() { return username; }
+    public String getName() { return name; }
     public String getEmail() { return email; }
     public String getPasswordHash() { return passwordHash; }
     public String getRole() { return role; }
-    public boolean isActive() { return active; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getLastLogin() { return lastLogin; }
 
+    // Setters
+    public void setUserId(String userId) { this.userId = userId; }
+    public void setName(String name) { this.name = name; }
+    public void setEmail(String email) { this.email = email; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
-    public void setActive(boolean active) { this.active = active; }
-    public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
+    public void setRole(String role) { this.role = role; }
+    // Convert to Map
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<>();
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                ", active=" + active +
-                '}';
+        map.put("userId", userId);
+        map.put("name", name);
+        map.put("email", email);
+        map.put("passwordHash", passwordHash);
+        map.put("role", role);
+
+        return map;
+    }
+
+    // Convert back to user
+    public static User fromMap(Map<String, String> map) {
+        return new User(
+                map.get("userId"),
+                map.get("name"),
+                map.get("email"),
+                map.get("passwordHash"),
+                map.get("role")
+        );
     }
 }
