@@ -1,5 +1,6 @@
-package utils;
+package services;
 import models.*;
+import utils.Repository;
 
 import java.util.*;
 public class AuthService{
