@@ -15,7 +15,7 @@ public class AuthService{
     public boolean checkpwd(String a, String b){
         User temp=isAvailable(a);
         if(temp!=null){
-            if (temp.getPasswordHash().equals(b)) return true;
+            if (temp.getPassword().equals(b)) return true;
             else return false;
         }
             

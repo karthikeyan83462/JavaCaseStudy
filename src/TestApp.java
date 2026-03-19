@@ -5,41 +5,75 @@ import utils.*;
 public class TestApp {
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        // ===== EMPLOYEE TEST =====
+        Repository<Employee> empRepo =
+                new Repository<>("data/employee.json", Employee::fromMap);
 
-        Repository<User> repo = new Repository<>("data/user.json", User::fromMap);
+        List<String> skills = Arrays.asList("Java", "Spring", "SQL");
 
-        System.out.print("Enter User ID: ");
-        String userId = scanner.nextLine();
+        Employee emp = new Employee(
+                "Alice",
+                Role.DEVELOPER,
+                skills,
+                EmployeeStatus.ACTIVE
+        );
 
-        System.out.print("Enter Name: ");
-        String name = scanner.nextLine();
+        empRepo.save(emp.toMap());
 
-        System.out.print("Enter Email: ");
-        String email = scanner.nextLine();
-
-        System.out.print("Enter Password Hash: ");
-        String passwordHash = scanner.nextLine();
-
-        System.out.print("Enter EmpID: ");
-        String role = scanner.nextLine();
-
-        User user = new User(userId, name, email, passwordHash, role);
-
-        repo.save(user.toMap());
-        System.out.println("User saved!\n");
-
-        List<User> users = repo.loadAll();
-
-        System.out.println("=== All Users ===");
-        for (User u : users) {
-            System.out.println("--------------------------");
-            System.out.println("ID: " + u.getUserId());
-            System.out.println("Name: " + u.getName());
-            System.out.println("Email: " + u.getEmail());
-            System.out.println("EmpID: " + u.getEmpID());
+        System.out.println("\n=== Employees ===");
+        for (Employee e : empRepo.loadAll()) {
+            System.out.println(e.getEmpID() + " | " +
+                    e.getName() + " | " +
+                    e.getRole() + " | " +
+                    e.getSkills() + " | " +
+                    e.getStatus());
         }
 
-        scanner.close();
+        // ===== LEAVE TEST =====
+        Repository<Leave> leaveRepo =
+                new Repository<>("data/leave.json", Leave::fromMap);
+
+        Leave leave = new Leave(
+                LeaveStatus.PENDING,
+                new Date(System.currentTimeMillis() + 86400000), // tomorrow
+                new Date(),
+                emp.getEmpID()
+        );
+
+        leaveRepo.save(leave.toMap());
+
+        System.out.println("\n=== Leaves ===");
+        for (Leave l : leaveRepo.loadAll()) {
+            System.out.println(l.getLeaveID() + " | " +
+                    l.getEmpID() + " | " +
+                    l.getStatus() + " | " +
+                    l.getStartDate() + " → " +
+                    l.getEndDate());
+        }
+
+        // ===== PROJECT TEST =====
+        Repository<Project> projRepo =
+                new Repository<>("data/project.json", Project::fromMap);
+
+        List<String> team = Arrays.asList(emp.getEmpID());
+        List<String> reqSkills = Arrays.asList("Java", "Microservices");
+
+        Project project = new Project(
+                "Inventory System",
+                team,
+                new Date(),
+                reqSkills
+        );
+
+        projRepo.save(project.toMap());
+
+        System.out.println("\n=== Projects ===");
+        for (Project p : projRepo.loadAll()) {
+            System.out.println(p.getProjectID() + " | " +
+                    p.getName() + " | " +
+                    p.getTeam() + " | " +
+                    p.getRequiredSkills() + " | " +
+                    p.getStartDate());
+        }
     }
 }

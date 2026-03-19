@@ -39,16 +39,27 @@ public class JsonUtil {
     public static List<Map<String, String>> parseList(String json) {
         List<Map<String, String>> list = new ArrayList<>();
 
+        if (json == null || json.trim().length() < 2) return list;
+
         json = json.trim();
+
+        if (!json.startsWith("[") || !json.endsWith("]")) return list;
+
         json = json.substring(1, json.length() - 1).trim(); // remove [ ]
 
         if (json.isEmpty()) return list;
 
-        // Split objects
-        String[] objects = json.split("(?<=\\}),");
+        // safer split for objects
+        String[] objects = json.split("(?<=\\})(?=,)");
 
         for (String obj : objects) {
-            list.add(JsonParser.parse(obj.trim()));
+            obj = obj.trim();
+
+            if (obj.endsWith(",")) {
+                obj = obj.substring(0, obj.length() - 1);
+            }
+
+            list.add(JsonParser.parse(obj));
         }
 
         return list;

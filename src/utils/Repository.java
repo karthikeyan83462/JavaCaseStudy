@@ -16,17 +16,9 @@ public class Repository<T> {
     // Load all objects from JSON array
     public List<T> loadAll() {
         try {
-            File f = new File(filePath);
-            if (!f.exists()) return new ArrayList<>();
+            String json = readFile();
 
-            BufferedReader br = new BufferedReader(new FileReader(f));
-            StringBuilder sb = new StringBuilder();
-            String line;
-
-            while ((line = br.readLine()) != null) sb.append(line);
-            br.close();
-
-            List<Map<String, String>> mapList = JsonUtil.parseList(sb.toString());
+            List<Map<String, String>> mapList = JsonUtil.parseList(json);
             List<T> result = new ArrayList<>();
 
             for (Map<String, String> m : mapList) {
@@ -41,11 +33,10 @@ public class Repository<T> {
         }
     }
 
-    // Save one new object to the JSON array
+    // Save one new object
     public void save(Map<String, String> map) {
         List<Map<String, String>> list;
 
-        // Load existing
         try {
             list = new ArrayList<>(JsonUtil.parseList(readFile()));
         } catch (Exception e) {
@@ -61,12 +52,12 @@ public class Repository<T> {
         File f = new File(filePath);
         if (!f.exists()) return "[]";
 
-        BufferedReader br = new BufferedReader(new FileReader(f));
         StringBuilder sb = new StringBuilder();
-        String line;
 
-        while ((line = br.readLine()) != null) sb.append(line);
-        br.close();
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+            String line;
+            while ((line = br.readLine()) != null) sb.append(line);
+        }
 
         return sb.toString();
     }
@@ -74,11 +65,14 @@ public class Repository<T> {
     private void writeFile(String data) {
         try {
             File f = new File(filePath);
-            f.getParentFile().mkdirs();
 
-            FileWriter fw = new FileWriter(f);
-            fw.write(data);
-            fw.close();
+            if (f.getParentFile() != null) {
+                f.getParentFile().mkdirs();
+            }
+
+            try (FileWriter fw = new FileWriter(f)) {
+                fw.write(data);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,9 +1,10 @@
 package models;
 
-import java.util.Date;
+import java.util.*;
 
 public class Leave {
-    private static int counter=1;
+    private static int counter = 1;
+
     private String leaveID;
     private String empID;
     private Date startDate;
@@ -19,58 +20,43 @@ public class Leave {
     }
 
     public Leave(LeaveStatus status, Date endDate, Date startDate, String empID) {
+        this.leaveID = "LVE" + counter++;
         this.status = status;
         this.endDate = endDate;
         this.startDate = startDate;
         this.empID = empID;
-        this.leaveID = "LVE"+String.valueOf(counter++);
     }
 
-    public LeaveStatus getStatus() {
-        return status;
+    public String getLeaveID() { return leaveID; }
+    public String getEmpID() { return empID; }
+    public Date getStartDate() { return startDate; }
+    public Date getEndDate() { return endDate; }
+    public LeaveStatus getStatus() { return status; }
+
+    public void setStatus(LeaveStatus status) { this.status = status; }
+    public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public void setStartDate(Date startDate) { this.startDate = startDate; }
+    public void setEmpID(String empID) { this.empID = empID; }
+
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("leaveID", leaveID);
+        map.put("empID", empID);
+        map.put("status", status.name());
+        map.put("startDate", String.valueOf(startDate.getTime()));
+        map.put("endDate", String.valueOf(endDate.getTime()));
+
+        return map;
     }
 
-    public void setStatus(LeaveStatus status) {
-        this.status = status;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEmpID() {
-        return empID;
-    }
-
-    public void setEmpID(String empID) {
-        this.empID = empID;
-    }
-
-    public String getLeaveID() {
-        return leaveID;
-    }
-
-    public void setLeaveID(String leaveID) {
-        this.leaveID = leaveID;
-    }
-
-    public static int getCounter() {
-        return counter;
-    }
-
-    public static void setCounter(int counter) {
-        Leave.counter = counter;
+    public static Leave fromMap(Map<String, String> map) {
+        return new Leave(
+                map.get("leaveID"),
+                LeaveStatus.valueOf(map.get("status")),
+                new Date(Long.parseLong(map.get("endDate"))),
+                new Date(Long.parseLong(map.get("startDate"))),
+                map.get("empID")
+        );
     }
 }
