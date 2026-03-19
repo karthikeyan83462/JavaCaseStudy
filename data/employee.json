@@ -1,1 +1,1 @@
-[{"skills": "Java;Spring;SQL", "empID": "EMP1", "role": "DEVELOPER", "name": "Alice", "status": "ACTIVE"}]
+[{"skills": "Java;Spring;SQL", "empID": "EMP1", "role": "DEVELOPER", "name": "Alice", "status": "ACTIVE"}, {"skills": "Java;DEVOPS;SQL;C++;Python", "empID": "EMP1", "role": "ADMIN", "name": "Monish", "ProjectID": "null", "status": "INACTIVE"}]
